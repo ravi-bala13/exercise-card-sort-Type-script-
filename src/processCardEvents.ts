@@ -21,25 +21,31 @@ type CardTransactionMapping = {
  */
 export const processCardEvents = (cardEvents: CardEvent[]): CardTransactionMapping => {
   let keys: string[] = []
+
   let values: string[] = []
   let result: object[] = []
 
   for (let i = 0; i < cardEvents.length; i++) {
-    if (!keys.includes(cardEvents[i].cardId)) {
+    // console.log('cardEvents[i]:', cardEvents[i])
+    // console.log('keys:', keys, values)
+    if (keys.includes(cardEvents[i].cardId)) {
+      if (values.includes(cardEvents[i].type)) {
+        // no push
+      } else {
+        keys.push(cardEvents[i].cardId)
+        values.push(cardEvents[i].type)
+        // CardTransactionMapping[ardEvents[i].cardId]
+        result.push(cardEvents[i])
+      }
+    } else {
+      //no value present
       keys.push(cardEvents[i].cardId)
-    }
-  }
-  console.log('keys:', keys)
-
-  for (let i = 0; i < cardEvents.length - 1; i++) {
-    // console.log('cardEvents:', cardEvents[i])
-    // console.log('cardEvents:da', cardEvents[i].type, cardEvents[i].id)
-    if (cardEvents[i].cardId == cardEvents[i + 1].cardId) {
+      values.push(cardEvents[i].type)
       result.push(cardEvents[i])
     }
   }
-  // console.log('result:', result)
-  // logic
 
-  return {} as CardTransactionMapping
+  // logic
+  console.log('result:', result)
+  return { result } as CardTransactionMapping
 }
