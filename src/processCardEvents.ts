@@ -20,7 +20,25 @@ type CardTransactionMapping = {
  * @returns CardTransactionMapping Valid transactions grouped by cardId
  */
 export const processCardEvents = (cardEvents: CardEvent[]): CardTransactionMapping => {
+  let keys: string[] = []
+  let values: string[] = []
+  let result: object[] = []
 
+  for (let i = 0; i < cardEvents.length; i++) {
+    if (!keys.includes(cardEvents[i].cardId)) {
+      keys.push(cardEvents[i].cardId)
+    }
+  }
+  console.log('keys:', keys)
+
+  for (let i = 0; i < cardEvents.length - 1; i++) {
+    // console.log('cardEvents:', cardEvents[i])
+    // console.log('cardEvents:da', cardEvents[i].type, cardEvents[i].id)
+    if (cardEvents[i].cardId == cardEvents[i + 1].cardId) {
+      result.push(cardEvents[i])
+    }
+  }
+  // console.log('result:', result)
   // logic
 
   return {} as CardTransactionMapping
